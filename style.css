@@ -57,6 +57,18 @@ span {
     display: none;
 }
 
+.city-weather-section {
+    grid-column-start: 1; 
+    grid-column-end: 3; 
+}
+
+.city-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8%;
+    row-gap: 3%;
+}
+
 /* Общий хэдер */
 
 .update-btn-text {
@@ -244,6 +256,18 @@ span {
     }
 
     main {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        row-gap: 30px;
+    }
+
+    .city-weather-section {
+        grid-column-start: 1; 
+        grid-column-end: 2; 
+    }
+
+    .city-list {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: auto;
