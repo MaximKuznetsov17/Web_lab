@@ -1,0 +1,284 @@
+/* Общие свойства */
+body {
+    margin: 0 auto;
+    width: 850px;
+    font-family: "Arial", serif;
+    color: #708089b0;
+}
+
+header {
+    margin-top: 2.2%;
+    margin-bottom: 2.2%;
+    display: grid;
+    grid-template-columns: 1fr 25% 1fr;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8%;
+    row-gap: 3%;
+}
+
+li {
+    list-style-type: none;
+}
+
+ul {
+    margin-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+h3 {
+    margin: 0 10% 0 0;
+    font-size: 29px;
+}
+
+h2 {
+    margin: 0 0 8%;
+    font-size: 35px;
+    font-weight: bold;
+    font-family: "Arial", serif;
+}
+
+p {
+    margin: 0 0;
+    font-size: 14px;
+    font-weight: bold
+}
+
+span {
+    margin: 0 0;
+    font-size: 14px;
+}
+
+.update-btn-icon {
+    display: none;
+}
+
+/* Общий хэдер */
+
+.update-btn-text {
+    width: 100%;
+    height: 60%;
+    color: whitesmoke;
+    background-color: #7c7c7c;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Текущий город */
+
+.current-city img {
+    float: left;
+    width: 30%;
+    margin-right: 20%;
+    margin-bottom: 3%;
+}
+
+.current-city span {
+    font-size: 109px;
+    color: #7c7c7c;
+    font-family: "Arial", serif;
+}
+
+.current-city-info {
+    margin: 0 0;
+    display: -ms-flexbox;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Избранное */
+
+.favorite {
+    margin: 5px 0;
+    font-size: 40px;
+    font-weight: normal;
+    font-family: "Times New Roman", serif;
+}
+
+.add-city {
+    display: flex;
+    justify-content: flex-end;
+    height: 50%;
+    margin: 5px 0;
+}
+
+.add-city input {
+    width: 65%;
+    height: 50px;
+    margin-right: 3%;
+    padding-left: 5%;
+    background-color: whitesmoke;
+    font-size: 18px;
+    color: #7c7c7c;
+    border: 0;
+}
+
+.add-city-btn {
+    height: 45px;
+    width: 45px;
+    background: #7c7c7c;
+    color: whitesmoke;
+    border-radius: 100%;
+    border: 0;
+    font-size: 24px;
+}
+
+
+
+/* Список городов */
+/* Погода в городе */
+/* Хэдер блока погоды */
+
+.delete-icon {
+    color: whitesmoke;
+}
+
+.city-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.city-header .weather-icon {
+    width: 50px;
+}
+
+.city-header .city-temp {
+    font-size: 50px;
+}
+
+.delete-city-btn {
+    height: 30px;
+    width: 30px;
+    background: #7c7c7c;
+    color: whitesmoke;
+    border-radius: 100%;
+    border: 0;
+    font-size: 23px;
+}
+
+/* Свойство погоды */
+
+.weather-property {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: silver;
+    color: whitesmoke;
+    list-style-type: none;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/* Версия поменьше */
+
+@media screen and (max-width: 900px) {
+    body {
+        width: 650px;
+    }
+
+    .current-city span {
+        font-size: 90px;
+    }
+
+    p,
+    span {
+        font-size: 12px;
+    }
+}
+
+/* Мобильная версия */
+
+@media screen and (max-width: 700px) {
+    body {
+        width: 450px;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+
+    .update-btn-text {
+        display: none;
+    }
+
+    .update-btn-icon {
+        margin-top: 10px;
+        display: block;
+        width: 50px;
+        height: 50px;
+        background: url("icons/update.svg") no-repeat;
+        border: 0;
+        margin: 10px 0;
+    }
+
+    main {
+        display: grid;
+        height: 100px;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        row-gap: 30px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    .current-city-info {
+        display: block;
+    }
+
+    .current-city img {
+        margin: 0 0;
+        width: 23%;
+        height: 23%;
+    }
+
+    .current-city span {
+        font-size: 80px;
+        float: right;
+    }
+
+    .favorite {
+        text-align: left;
+        margin: 0 0;
+    }
+
+    .add-city {
+        justify-content: space-between;
+        margin: 0 0;
+    }
+
+    .add-city input {
+        width: 75%;
+        height: 40px;
+        margin-right: 0;
+        padding: 5px;
+        font-size: 14px;
+    }
+
+    h3 {
+        font-size: 24px;
+        margin-right: 0;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    span {
+        font-size: 12px;
+    }
+}
