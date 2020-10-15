@@ -7,8 +7,8 @@ body {
 }
 
 header {
-    margin-top: 2.2%;
-    margin-bottom: 2.2%;
+    margin-top: 20px;
+    margin-bottom: 20px;
     display: grid;
     grid-template-columns: 1fr 25% 1fr;
 }
@@ -85,7 +85,7 @@ span {
 
 .current-city-info {
     margin: 0 0;
-    display: -ms-flexbox;
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -109,8 +109,8 @@ span {
 .add-city input {
     width: 65%;
     height: 50px;
-    margin-right: 3%;
-    padding-left: 5%;
+    margin-right: 25px;
+    padding-left: 40px;
     background-color: whitesmoke;
     font-size: 18px;
     color: #7c7c7c;
@@ -197,6 +197,12 @@ span {
     
     .city-header .city-temp {
         font-size: 40px;
+    }
+
+    .add-city input {
+        margin-right: 20px;
+        padding-left: 20px;
+        font-size: 16px;
     }
     
     .delete-city-btn {
