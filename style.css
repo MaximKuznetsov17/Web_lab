@@ -96,7 +96,6 @@ span {
     margin: 5px 0;
     font-size: 40px;
     font-weight: normal;
-    font-family: "Times New Roman", serif;
 }
 
 .add-city {
@@ -220,7 +219,7 @@ span {
 
 @media screen and (max-width: 700px) {
     body {
-        width: 450px;
+        width: 320px;
     }
 
     header {
@@ -237,8 +236,8 @@ span {
     .update-btn-icon {
         margin-top: 10px;
         display: block;
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         background: url("icons/update.svg") no-repeat;
         border: 0;
         margin: 10px 0;
@@ -246,18 +245,17 @@ span {
 
     main {
         display: grid;
-        height: 100px;
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         row-gap: 30px;
     }
 
     h1 {
-        font-size: 36px;
+        font-size: 32px;
     }
 
     h2 {
-        font-size: 32px;
+        font-size: 28px;
     }
 
     .current-city-info {
@@ -271,7 +269,7 @@ span {
     }
 
     .current-city span {
-        font-size: 80px;
+        font-size: 75px;
         float: right;
     }
 
@@ -299,10 +297,10 @@ span {
     }
 
     p {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     span {
-        font-size: 12px;
+        font-size: 10px;
     }
 }
