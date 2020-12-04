@@ -30,18 +30,26 @@ async function getWeatherByCityName(cityName) {
 async function addCity(name) {
     if (name.length === 0) {
         alert("Поле ввода названия города пустое!")
+        return
     }
     try {
         if (!favorites.includes(name.toLowerCase())) {
             const weather = await loadCity(name)
+            if (weather === undefined) {
+                alert("Невозможно добавить город с именем = " + name)
+                return
+            }
             favorites.push(weather.location.name.toLowerCase())
             localStorage.setItem("favorites", JSON.stringify(favorites))
         } else {
             alert("Такой город уже есть в избранном!")
+            return
         }
     } catch (e) {
         console.error(e)
         alert("Невозможно добавить город с именем = " + name)
+    } finally {
+        clearInput()
     }
 }
 
@@ -53,20 +61,29 @@ async function loadCity(name) {
     favoritesEl.appendChild(loader)
 
     const weather = await getWeatherByCityName(name)
-    const template = document.getElementById('city-template')
-    const city = document.importNode(template.content, true)
-    const el = city.children[0]
+    if (weather !== undefined) {
+        const template = document.getElementById('city-template')
+        const city = document.importNode(template.content, true)
+        const el = city.children[0]
 
-    el.setAttribute('city-id', name.toLowerCase())
-    el.querySelector('.delete-city-btn')
-      .addEventListener('click', event => deleteCity(name))
-    fillWeatherProperties(el, weather)
-    fillWeatherHeader(el, weather)
+        el.setAttribute('city-id', name.toLowerCase())
+        el.querySelector('.delete-city-btn')
+        .addEventListener('click', event => deleteCity(name))
+        fillWeatherProperties(el, weather)
+        fillWeatherHeader(el, weather)
+        favoritesEl.removeChild(loaderEl)
+        favoritesEl.appendChild(city)
+    } else {
+        favoritesEl.removeChild(loaderEl)
+    }
   
-    favoritesEl.removeChild(loaderEl)
-    favoritesEl.appendChild(city)
     return weather
-  }
+}
+
+function clearInput() {
+    document.getElementById("input-city").value = ''
+}
+
 
 async function updateWeatherInMyLocation() {
     const weatherHere = document.getElementById('weather-here')
@@ -80,6 +97,12 @@ async function updateWeatherInMyLocation() {
         weather = await getWeatherByGeolocation()
     } catch (e) {
         weather = await getWeatherByCityName(DEFAULT_CITY)
+    }
+    if (weather === undefined) {
+        weatherHere.classList.remove('onload')
+        weatherHeader.classList.remove('onload')
+        document.getElementsByClassName('loader')[0].style['display'] = 'none'
+        return
     }
     fillWeatherProperties(weatherHere, weather)
     fillWeatherHeader(weatherHeader, weather)
@@ -121,12 +144,10 @@ function fillWeatherHeader(el, weather) {
 
 async function getWeatherByUrl(url) {
     try {
-        let response = await fetch(url);
+        let response = await fetch(url)
         if (response.ok) {
-            let json = await response.json();
+            let json = await response.json()
             return json
-          } else {
-            alert(`Ошибка! Код результата запроса: ${response.status}`)
           }
     } catch (e) {
         alert('Ошибка сети!')
