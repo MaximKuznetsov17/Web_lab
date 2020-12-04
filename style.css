@@ -85,12 +85,12 @@ span {
 .current-city img {
     float: left;
     width: 30%;
-    margin-right: 20%;
+    margin-right: 10%;
     margin-bottom: 3%;
 }
 
 .current-city span {
-    font-size: 109px;
+    font-size: 100px;
     color: #7c7c7c;
     font-family: "Arial", serif;
 }
@@ -155,7 +155,7 @@ span {
 }
 
 .city-header .city-temp {
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .delete-city-btn {
@@ -180,6 +180,24 @@ span {
     padding: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+/* Лоадер */
+
+.onload {
+    display: none;
+}
+
+.loader {
+    margin: 0 auto;
+    font-size: 45px;
+    grid-column-start: 1;   
+    grid-column-end: 3; 
+}
+
+.new-city-loader {
+    margin: 35px auto;
+    font-size: 35px;
 }
 
 /* Версия поменьше */
@@ -327,4 +345,20 @@ span {
     span {
         font-size: 10px;
     }
+
+    .onload {
+        display: none;
+    }
+    
+    .loader {
+        font-size: 20px;
+        grid-column-start: 1;   
+        grid-column-end: 2; 
+    }
+
+    .new-city-loader {
+        margin: 5px auto;
+        font-size: 20px;
+    }
+
 }
