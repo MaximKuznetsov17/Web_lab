@@ -1,5 +1,5 @@
 const API_KEY = '53562889d1794973baa210845201610'
-const BASE_URL = 'http://api.weatherapi.com/v1/current.json'
+const BASE_URL = 'https://api.weatherapi.com/v1/current.json'
 const SITE_PREFIX = 'http:'
 const TEMP_POSTFIX = '°C'
 const HUMIDITY_POSTFIX = '%'
