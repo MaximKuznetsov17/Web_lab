@@ -1,6 +1,6 @@
 const API_KEY = '53562889d1794973baa210845201610'
 const BASE_URL = 'https://api.weatherapi.com/v1/current.json'
-const SITE_PREFIX = 'http:'
+const SITE_PREFIX = 'https:'
 const TEMP_POSTFIX = '°C'
 const HUMIDITY_POSTFIX = '%'
 const PRESSURE_POSTFIX = ' hpa'
