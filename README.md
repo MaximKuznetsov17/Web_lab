@@ -1,2 +1,2 @@
 Web programming 2020
-Firtst laboratory
+Firtst and second laboratory
