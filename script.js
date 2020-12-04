@@ -119,30 +119,22 @@ function fillWeatherHeader(el, weather) {
     el.querySelector('.city-temp').textContent = weather.current.temp_c + TEMP_POSTFIX
 }
 
-function getWeatherByUrl(url) {
-    return new Promise(function (resolve, reject) {
-        let xhr = new XMLHttpRequest()
-        xhr.open('GET', url, true)
-        xhr.timeout = 30000
-        xhr.ontimeout = function () {
-            reject(new Error('Превышено максимальное время ожидания!'))
-        }
-        xhr.onreadystatechange = function () {
-            if (this.readyState !== 4) {
-                return
-            }
-            if (xhr.status !== 200) {
-                reject(new Error('Ошибка ' + xhr.status + ': ' + xhr.statusText))
-            }
-            let objectResponse = JSON.parse(xhr.responseText)
-            resolve(objectResponse)
-        }
-        xhr.onerror = function () {
-            reject(new Error("Ошибка сети"))
-        }
-        xhr.send()
-    })
+async function getWeatherByUrl(url) {
+    try {
+        let response = await fetch(url);
+        if (response.ok) {
+            let json = await response.json();
+            return json
+          } else {
+            alert(`Ошибка! Код результата запроса: ${response.status}`)
+          }
+    } catch (e) {
+        alert('Ошибка сети!')
+        console.log(error)
+    }
 }
+
+
 
 function addCityEvent(event) {
     event.preventDefault()
