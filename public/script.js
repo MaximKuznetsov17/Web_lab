@@ -1,12 +1,11 @@
-const API_KEY = '53562889d1794973baa210845201610'
-const BASE_URL = 'https://api.weatherapi.com/v1/current.json'
+const PORT = 3000
+const BASE_URL = 'http://localhost:' + PORT + '/weather'
 const SITE_PREFIX = 'https:'
 const TEMP_POSTFIX = '°C'
 const HUMIDITY_POSTFIX = '%'
 const PRESSURE_POSTFIX = ' hpa'
 const WIND_POSTFIX = 'm/s '
 const DEFAULT_CITY = 'Saint-Petersburg'
-let favorites
 
 async function getLocation() {
     return new Promise((resolve, reject) => {
@@ -14,15 +13,45 @@ async function getLocation() {
     })
 }
 
+async function addCityInDb(cityName) {
+    let response = await fetch(`${BASE_URL}/favourites`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json;charset=utf-8' },
+        body: JSON.stringify({ "city": cityName })
+    })
+    if (!response.ok) {
+        console.error('Can\'t add city. Error on server')
+    }
+    return response.json()
+}
+
+async function removeCityFromDb(cityName) {
+    let response = await fetch(`${BASE_URL}/favourites?q=${cityName}`, {
+        method: 'DELETE'
+    })
+    if (!response.ok) {
+        console.error('Can\'t remove city. Error on server')
+    }
+    return response.json()
+}
+
+async function getFavouritesCityFromDb() {
+    let response = await fetch(`${BASE_URL}/favourites`)
+    if (!response.ok) {
+        console.error('Can\'t get favorites cities from server')
+    }
+    return response.json()
+}
+
 async function getWeatherByGeolocation() {
     let location = await getLocation()
-    const url = `${BASE_URL}?key=${API_KEY}&q=${location.latitude},${location.longitude}`
+    const url = `${BASE_URL}/coordinates?lat=${location.latitude}&lon=${location.longitude}`
     let weatherResponse = await getWeatherByUrl(url)
     return weatherResponse
 }
 
 async function getWeatherByCityName(cityName) {
-    const url = `${BASE_URL}?key=${API_KEY}&q=${cityName}`
+    const url = `${BASE_URL}/city?q=${cityName}`
     let weatherResponse = await getWeatherByUrl(url)
     return weatherResponse
 }
@@ -33,24 +62,33 @@ async function addCity(name) {
         return
     }
     try {
-        if (!favorites.includes(name.toLowerCase())) {
+        const favorites = await getFavouritesCityFromDb()
+        if (!isCityExist(favorites, name)) {
             const weather = await loadCity(name)
             if (weather === undefined) {
-                alert("Невозможно добавить город с именем = " + name)
+                alert("Невозможно добавить город с именем " + name)
                 return
             }
-            favorites.push(weather.location.name.toLowerCase())
-            localStorage.setItem("favorites", JSON.stringify(favorites))
+            addCityInDb(weather.location.name.toLowerCase())
         } else {
             alert("Такой город уже есть в избранном!")
             return
         }
     } catch (e) {
         console.error(e)
-        alert("Невозможно добавить город с именем = " + name)
+        alert("Невозможно добавить город с именем " + name)
     } finally {
         clearInput()
     }
+}
+
+function isCityExist(favorites, city) {
+    for (let key in favorites) {
+        if (favorites[key].city === city.toLowerCase()) {
+            return true
+        }
+    }
+    return false
 }
 
 async function loadCity(name) {
@@ -68,7 +106,7 @@ async function loadCity(name) {
 
         el.setAttribute('city-id', name.toLowerCase())
         el.querySelector('.delete-city-btn')
-        .addEventListener('click', event => deleteCity(name))
+            .addEventListener('click', event => deleteCity(name))
         fillWeatherProperties(el, weather)
         fillWeatherHeader(el, weather)
         favoritesEl.removeChild(loaderEl)
@@ -76,14 +114,12 @@ async function loadCity(name) {
     } else {
         favoritesEl.removeChild(loaderEl)
     }
-  
     return weather
 }
 
 function clearInput() {
     document.getElementById("input-city").value = ''
 }
-
 
 async function updateWeatherInMyLocation() {
     const weatherHere = document.getElementById('weather-here')
@@ -119,11 +155,7 @@ function deleteCity(name) {
     if (city !== null) {
         favoritesElement.removeChild(city)
     }
-    const favIndex = favorites.indexOf(name)
-    if (favIndex !== -1) {
-        favorites.splice(favIndex, 1)
-        localStorage.setItem('favorites', JSON.stringify(favorites))
-    }
+    removeCityFromDb(name.toLowerCase())
 }
 
 function fillWeatherProperties(el, weather) {
@@ -148,14 +180,12 @@ async function getWeatherByUrl(url) {
         if (response.ok) {
             let json = await response.json()
             return json
-          }
+        }
     } catch (e) {
         alert('Ошибка сети!')
-        console.log(error)
+        console.error(e)
     }
 }
-
-
 
 function addCityEvent(event) {
     event.preventDefault()
@@ -174,15 +204,9 @@ window.addEventListener('load', async () => {
     document.querySelector('.add-city-btn')
         .addEventListener('click', addCityEvent)
 
-    try {
-        favorites = JSON.parse(localStorage.getItem('favorites'))
-    } catch (e) {
-        console.error(e)
-    }
-
-    if (!Array.isArray(favorites)) {
-        favorites = []
-    }
+    const favorites = await getFavouritesCityFromDb()
     updateWeatherInMyLocation()
-    favorites.forEach(id => loadCity(id))
+    for (let key in favorites) {
+        loadCity(favorites[key].city)
+    }
 })
