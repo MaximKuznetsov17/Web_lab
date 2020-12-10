@@ -24,10 +24,7 @@ app.use(bodyParser.json())
 async function getWeatherByUrl(url) {
     try {
         let response = await fetch(encodeURI(url))
-        if (response.ok) {
-            let json = await response.json()
-            return json
-        }
+        return response
     } catch (e) {
         console.log(e)
     }
@@ -56,11 +53,16 @@ app.get('/weather/city', async (req, res) => {
     try {
         const cityName = req.query.q;
         const url = `${BASE_URL}?key=${API_KEY}&q=${cityName}`
-        const data = await getWeatherByUrl(url)
-        if (data !== undefined) {
-            res.json(data)
+        const response = await getWeatherByUrl(url)
+        if (response.ok) {
+            const data = await response.json()
+            if (data !== undefined) {
+                res.json(data)
+            } else {
+                res.status(404).end()   
+            }
         } else {
-            res.status(500).end()   
+            res.status(response.status).end()
         }
     } catch (e) {
         console.log(e)
@@ -73,9 +75,16 @@ app.get('/weather/coordinates', async (req, res) => {
         const lat = req.query.lat;
         const lon = req.query.lon;
         const url = `${BASE_URL}?key=${API_KEY}&q=${lat},${lon}`
-        const data = await getWeatherByUrl(url)
-        if (data !== undefined) {
-            res.json(data)
+        const response = await getWeatherByUrl(url)
+        if (response.ok) {
+            const data = await response.json()
+            if (data !== undefined) {
+                res.json(data)
+            } else {
+                res.status(404).end()   
+            }
+        } else {
+            res.status(response.status).end()
         }
     } catch (e) {
         console.log(e)

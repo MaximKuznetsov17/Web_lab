@@ -22,7 +22,7 @@ async function addCityInDb(cityName) {
     if (!response.ok) {
         console.error('Can\'t add city. Error on server')
     }
-    return response.json()
+    return await response.json()
 }
 
 async function removeCityFromDb(cityName) {
@@ -32,7 +32,7 @@ async function removeCityFromDb(cityName) {
     if (!response.ok) {
         console.error('Can\'t remove city. Error on server')
     }
-    return response.json()
+    return await response.json()
 }
 
 async function getFavouritesCityFromDb() {
@@ -40,7 +40,7 @@ async function getFavouritesCityFromDb() {
     if (!response.ok) {
         console.error('Can\'t get favorites cities from server')
     }
-    return response.json()
+    return await response.json()
 }
 
 async function getWeatherByGeolocation() {
@@ -148,14 +148,15 @@ async function updateWeatherInMyLocation() {
     document.getElementsByClassName('loader')[0].style['display'] = 'none'
 }
 
-function deleteCity(name) {
-    const favoritesElement = document.getElementById('favorites')
-
-    const city = favoritesElement.querySelector(`.city-weather[city-id="${name.toLowerCase()}"]`)
-    if (city !== null) {
-        favoritesElement.removeChild(city)
+async function deleteCity(name) {
+    const response = await removeCityFromDb(name.toLowerCase())
+    if (response !== undefined) {
+        const favoritesElement = document.getElementById('favorites')
+        const city = favoritesElement.querySelector(`.city-weather[city-id="${name.toLowerCase()}"]`)
+        if (city !== null) {
+            favoritesElement.removeChild(city)
+        }
     }
-    removeCityFromDb(name.toLowerCase())
 }
 
 function fillWeatherProperties(el, weather) {
