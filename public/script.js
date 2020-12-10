@@ -149,13 +149,18 @@ async function updateWeatherInMyLocation() {
 }
 
 async function deleteCity(name) {
+    const favoritesElement = document.getElementById('favorites')
+    const city = favoritesElement.querySelector(`.city-weather[city-id="${name.toLowerCase()}"]`)
+    const deleteBtn = city.querySelector('.delete-city-btn')
+    deleteBtn.disabled = true
+    deleteBtn.style['background'] = 'black'
     const response = await removeCityFromDb(name.toLowerCase())
     if (response !== undefined) {
-        const favoritesElement = document.getElementById('favorites')
-        const city = favoritesElement.querySelector(`.city-weather[city-id="${name.toLowerCase()}"]`)
         if (city !== null) {
             favoritesElement.removeChild(city)
         }
+    } else {
+        alert('Ошибка удаления объекта!')
     }
 }
 
