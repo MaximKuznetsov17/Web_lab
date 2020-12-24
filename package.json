@@ -4,8 +4,10 @@
   "description": "Web programming laboratory number 3",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon ./backend/index.js",
+    "test": "mocha ./tests/appServerTest.js --timeout 120000 --exit & mocha ./tests/appTest.js --timeout 120000 --exit",
+    "test-backend": "mocha ./tests/appServerTest.js --timeout 120000 --exit",
+    "test-frontend": "mocha ./tests/appTest.js --timeout 120000 --exit"
   },
   "keywords": [
     "node",
@@ -22,6 +24,16 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "fetch-mock": "^9.11.0",
+    "fs": "^0.0.1-security",
+    "jsdom": "^16.4.0",
+    "mocha": "^8.2.1",
+    "mock-geolocation": "^1.0.11",
+    "mock-mongoose": "^8.0.1-a",
+    "nodemon": "^2.0.6",
+    "sinon": "^9.2.2",
+    "supertest": "^6.0.1"
   }
 }

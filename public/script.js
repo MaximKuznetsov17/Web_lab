@@ -153,7 +153,7 @@ async function deleteCity(name) {
     const city = favoritesElement.querySelector(`.city-weather[city-id="${name.toLowerCase()}"]`)
     const deleteBtn = city.querySelector('.delete-city-btn')
     deleteBtn.disabled = true
-    deleteBtn.style['background'] = 'black'
+    deleteBtn.style['background'] = 'silver'
     const response = await removeCityFromDb(name.toLowerCase())
     if (response !== undefined) {
         if (city !== null) {
@@ -216,3 +216,18 @@ window.addEventListener('load', async () => {
         loadCity(favorites[key].city)
     }
 })
+
+module.exports = {
+    getWeatherByUrl: getWeatherByUrl,
+    removeCityFromDb: removeCityFromDb,
+    deleteCity: deleteCity,
+    addCityInDb: addCityInDb,
+    updateWeatherInMyLocation: updateWeatherInMyLocation,
+    loadCity: loadCity,
+    getLocation: getLocation,
+    isCityExist: isCityExist,
+    addCity: addCity,
+    getWeatherByCityName: getWeatherByCityName,
+    getWeatherByGeolocation: getWeatherByGeolocation,
+    getFavouritesCityFromDb: getFavouritesCityFromDb
+}
